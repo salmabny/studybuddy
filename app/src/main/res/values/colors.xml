@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Couleurs principales dans le thème violet -->
+    <color name="primary_color">#7E57C2</color>
+    <color name="primary_dark">#5E35B1</color>
+    <color name="primary_light">#B39DDB</color>
+
+    <!-- Couleurs de texte -->
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="hint_color">#BDBDBD</color>
+
+    <!-- Couleurs de fond -->
+    <color name="white">#FFFFFF</color>
+    <color name="background">#FAFAFA</color>
+    <color name="bottom_nav_color">#7E57C2</color>
+    <color name="black">#FF000000</color>
+</resources>
