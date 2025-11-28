@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">StudyBuddy</string>
+    <string name="app_tagline">Votre compagnon d\'étude intelligent</string>
+    <string name="app_logo">Logo de l\'application</string>
+    <string name="login_title">Connexion</string>
+    <string name="email_hint">Adresse email</string>
+    <string name="password_hint">Mot de passe</string>
+    <string name="login_button">Se connecter</string>
+    <string name="register_prompt">Pas encore de compte ? S\'inscrire</string>
+    <string name="app_version">Version 1.0</string>
+    <string name="register_title">Créer un compte</string>
+    <string name="full_name_hint">Nom complet</string>
+    <string name="confirm_password_hint">Confirmer le mot de passe</string>
+    <string name="register_button">S\'inscrire</string>
+    <string name="login_prompt">Déjà un compte ? Se connecter</string>
+</resources>
