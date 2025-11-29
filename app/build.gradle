@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.studybuddy'
-    compileSdk 36
+    compileSdk 36   // ✅ mis à jour
 
     defaultConfig {
         applicationId "com.example.studybuddy"
-        minSdk 25
-        targetSdk 36
+        minSdk 21     // ✅ tu peux garder
+        targetSdk 36  // ✅ mis à jour
         versionCode 1
         versionName "1.0"
 

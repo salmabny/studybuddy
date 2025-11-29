@@ -6,8 +6,14 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -21,7 +27,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialiser la base de données
         dbHelper = new DatabaseHelper(this);
 
         initializeViews();
@@ -41,8 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> attemptRegister());
 
         tvLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             finish();
         });
     }
@@ -53,69 +57,19 @@ public class RegisterActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        if (validateInputs(fullName, email, password, confirmPassword)) {
-            performRegister(fullName, email, password);
-        }
-    }
+        if (!validateInputs(fullName, email, password, confirmPassword)) return;
 
-    private boolean validateInputs(String fullName, String email, String password, String confirmPassword) {
-        if (TextUtils.isEmpty(fullName)) {
-            etFullName.setError("Full name is required");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Email is required");
-            return false;
-        }
-
-        if (!isValidEmail(email)) {
-            etEmail.setError("Invalid email format");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Password is required");
-            return false;
-        }
-
-        if (password.length() < 6) {
-            etPassword.setError("Password must be at least 6 characters");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(confirmPassword)) {
-            etConfirmPassword.setError("Please confirm password");
-            return false;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            etConfirmPassword.setError("Passwords do not match");
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) &&
-                android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
-    private void performRegister(String fullName, String email, String password) {
-        // Vérifier si l'email existe déjà
         if (dbHelper.checkEmailExists(email)) {
             etEmail.setError("This email is already registered");
             return;
         }
 
-        // Ajouter l'utilisateur à la base de données
-        boolean isInserted = dbHelper.addUser(fullName, email, password);
+        String createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        User user = new User(fullName, email, password, createdAt);
 
+        boolean isInserted = dbHelper.addUser(user);
         if (isInserted) {
             Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
-
-            // Retour à la page de connexion avec l'email pré-rempli
             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
             intent.putExtra("registered_email", email);
             startActivity(intent);
@@ -123,5 +77,15 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Registration failed!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean validateInputs(String fullName, String email, String password, String confirmPassword) {
+        if (TextUtils.isEmpty(fullName)) { etFullName.setError("Full name required"); return false; }
+        if (TextUtils.isEmpty(email)) { etEmail.setError("Email required"); return false; }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) { etEmail.setError("Invalid email"); return false; }
+        if (TextUtils.isEmpty(password)) { etPassword.setError("Password required"); return false; }
+        if (password.length() < 6) { etPassword.setError("At least 6 characters"); return false; }
+        if (!password.equals(confirmPassword)) { etConfirmPassword.setError("Passwords do not match"); return false; }
+        return true;
     }
 }

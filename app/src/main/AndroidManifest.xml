@@ -15,7 +15,8 @@
 
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" /> <!-- MainActivity - Écran de connexion (écran de lancement) -->
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -23,10 +24,20 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".TaskListActivity"
+            android:exported="false" />
+
+        <!-- ✅ CORRIGÉ : android:parentActivityName au lieu de android ta:parentActivityName -->
+        <activity
+            android:name=".AddTaskActivity"
+            android:exported="false"
+            android:parentActivityName=".TaskListActivity" />
+
     </application>
 
 </manifest>
